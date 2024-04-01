@@ -49,17 +49,20 @@
   display: flex;
   gap: 1rem;
 }
-.home .seccontainer .homeCard .locationDiv, .home .seccontainer .homeCard .trailLengthDiv {
+.home .seccontainer .homeCard .locationDiv,
+.home .seccontainer .homeCard .trailLengthDiv {
   width: 100%;
 }
-.home .seccontainer .homeCard .locationDiv label, .home .seccontainer .homeCard .trailLengthDiv label {
+.home .seccontainer .homeCard .locationDiv label,
+.home .seccontainer .homeCard .trailLengthDiv label {
   display: block;
   color: var(--textColor);
   font-weight: 500;
   font-size: 13px;
   padding-bottom: 0.4rem;
 }
-.home .seccontainer .homeCard .locationDiv input, .home .seccontainer .homeCard .trailLengthDiv input {
+.home .seccontainer .homeCard .locationDiv input,
+.home .seccontainer .homeCard .trailLengthDiv input {
   width: 100%;
   background: var(--inputColor);
   border-radius: 10px;
@@ -73,19 +76,31 @@
   opacity: 0.5;
   font-weight: 400;
 }
-.home .seccontainer .homeCard .locationDiv input::placeholder, .home .seccontainer .homeCard .trailLengthDiv input::placeholder {
+.home .seccontainer .homeCard .locationDiv input::placeholder,
+.home .seccontainer .homeCard .trailLengthDiv input::placeholder {
   font-size: 13px;
   opacity: 0.5;
   font-weight: 400;
 }
-.home .seccontainer .homeCard .locationDiv input:focus, .home .seccontainer .homeCard .trailLengthDiv input:focus {
+.home .seccontainer .homeCard .locationDiv input:focus,
+.home .seccontainer .homeCard .trailLengthDiv input:focus {
   outline: none;
 }
-.home .seccontainer .homeCard .locationDiv input .btn, .home .seccontainer .homeCard .trailLengthDiv input .btn {
+.home .seccontainer .homeCard .locationDiv input .btn,
+.home .seccontainer .homeCard .trailLengthDiv input .btn {
   width: 100%;
   padding: 0.6rem 0.5rem;
   color: var(--whiteColor);
   font-weight: 600;
+}
+.home .seccontainer .tileGroups {
+  width: 90%;
+  position: absolute;
+  top: 140%;
+  gap: 1rem;
+  justify-content: center;
+  transform: translate(-50%);
+  left: 50%;
 }
 
 @media screen and (min-width: 480px) {
