@@ -3,7 +3,7 @@ name: Build and Deploy React Website
 on:
     push:
         branches:
-            - deploy-test
+            - "deploy-test"
 
 jobs:
     build:
@@ -32,4 +32,4 @@ jobs:
                   aws-region: us-west-2
 
             - name: Deploy to AWS S3
-              run: aws s3 sync build/ s3://trail-exp-frontend --delete
+              run: aws s3 sync build/ ${{ secrets.AWS_BUCKET_NAME }} --delete
