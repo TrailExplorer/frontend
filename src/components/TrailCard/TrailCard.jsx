@@ -4,15 +4,15 @@ import styles from "./TrailCard.module.css";
 const TrailCard = (props) => {
     const getTags = () => {
         const tags = [];
-        for (let i = 0; i < Math.min(props?.trail?.tags.length, 3); i++) {
-            tags.push(<span>{props?.trail?.tags[i]}</span>);
+        for (let i = 0; i < Math.min(props?.trail?.features.length, 3); i++) {
+            tags.push(<span>{props?.trail?.features[i]}</span>);
         }
         return tags;
     };
 
     const getStars = () => {
         const stars = [];
-        let rating = props?.trail?.rating;
+        let rating = Number(props?.trail?.avg_rating);
         for (let i = 0; i < 5; i++) {
             if (rating >= 1) {
                 stars.push(
@@ -46,6 +46,7 @@ const TrailCard = (props) => {
         <button className={styles.card}>
             <div className={styles.poster}>
                 <img
+                    alt="trail"
                     src={
                         props?.trail?.imageUrl
                             ? props?.trail?.imageUrl
@@ -54,18 +55,22 @@ const TrailCard = (props) => {
                 />
             </div>
             <div className={styles.details}>
-                <h2>
-                    {props?.trail?.title}
+                <h2 className={styles.capitalize}>
+                    {props?.trail?.name}
                     <br></br>
-                    <span>{props?.trail?.location}</span>
+                    <span>
+                        {props?.trail?.city_name +
+                            ", " +
+                            props?.trail?.state_name}
+                    </span>
                 </h2>
                 <div className={styles.rating}>
                     {getStars()}
-                    <span>{props?.trail?.rating}/5</span>
+                    <span>{props?.trail?.avg_rating}/5</span>
                 </div>
                 <div className={styles.tags}>{getTags()}</div>
                 <div className={styles.info}>
-                    <p>{props?.trail?.description}</p>
+                    <p>{props?.trail?.description || "Lorum Ipsum"}</p>
                 </div>
             </div>
         </button>
