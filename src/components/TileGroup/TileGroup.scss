@@ -12,44 +12,65 @@
         font-weight: 700;
         line-height: 2.5rem;
         margin-left: 1rem;
-    }
-
-    .arrow {
-        opacity: 0.5;
-        cursor: pointer;
-    }
-
-    .arrow:hover {
-        opacity: 1;
-    }
-
-    .arrow-left {
-        position: absolute;
-        left: -2%;
-        top: 50%;
-    }
-
-    .arrow-right {
-        position: absolute;
-        right: -2%;
-        top: 50%;
-    }
-
-    .tile-group-container {
-        display: flex;
-        overflow-x: auto;
-        width: 100%;
-        flex-direction: row;
         align-items: center;
-        justify-content: flex-start;
-        scroll-behavior: smooth;
+        display: flex;
 
-        .trail-card-parent {
-            display: inline-block;
+        .filter-icon {
+            color: var(--primaryColor);
+            font-size: 2.25rem;
+            align-items: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 2.25rem;
+        }
+
+        .filter-icon:hover {
+            color: var(--primaryColor);
+            background-color: rgb(224, 222, 222);
+            opacity: 0.8;
+        }
+    }
+
+    .tile-group-parent {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .arrow {
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .arrow:hover {
+            opacity: 1;
+        }
+
+        .arrow-left {
+            position: absolute;
+            left: -2%;
+        }
+
+        .arrow-right {
+            position: absolute;
+            right: -2%;
+        }
+
+        .tile-group-container {
+            display: flex;
+            overflow-x: auto;
             width: 100%;
-            border-width: 0;
-            padding: 1rem;
-            background: var(--whiteColor);
+            flex-direction: row;
+            scroll-behavior: smooth;
+            align-items: center;
+            justify-content: flex-start;
+
+            .trail-card-parent {
+                display: inline-block;
+                border-width: 0;
+                padding: 1rem;
+                background: var(--whiteColor);
+            }
         }
     }
 

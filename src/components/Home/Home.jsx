@@ -3,6 +3,21 @@ import "../Home/Home.scss";
 import "../Home/Home.css";
 import TileGroup from "../TileGroup/TileGroup";
 
+const subsections = [
+    {
+        title: "Recommended",
+    },
+    {
+        title: "Top Rated Trails",
+    },
+    {
+        title: "Lengthy Trails",
+    },
+    {
+        title: "Difficult Trails",
+    },
+];
+
 const Home = () => {
     return (
         <React.Fragment>
@@ -42,12 +57,14 @@ const Home = () => {
                         <button className="btn">Search</button>
                     </div>
                     <div className="tileGroups grid">
-                        <div className="tileGroup">
+                        {subsections.map((subsection, index) => (
                             <TileGroup
-                                title="Popular Trails"
+                                title={subsection.title}
                                 className="tile"
+                                key={index}
+                                childNo={index}
                             />
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
