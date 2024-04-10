@@ -46,6 +46,7 @@ const TrailCard = (props) => {
         <button className={styles.card}>
             <div className={styles.poster}>
                 <img
+                    alt="trail"
                     src={
                         props?.trail?.imageUrl
                             ? props?.trail?.imageUrl
