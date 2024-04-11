@@ -3,12 +3,7 @@ import "./TileGroup.scss";
 import TrailCard from "../TrailCard/TrailCard";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { FcFilledFilter } from "react-icons/fc";
-import Typography from "@mui/material/Typography";
 import Popover from "@mui/material/Popover";
-import RatingFilter from "../Filters/RatingFilte/RatingFilter";
-import LengthFilter from "../Filters/LengthFilter/LengthFilter";
-import DifficultyFilter from "../Filters/DifficultyFilter/DifficultyFilter";
-import { getTrailDetails } from "../../requests";
 
 const TileGroup = (props) => {
     const slideLeft = () => {
@@ -21,14 +16,15 @@ const TileGroup = (props) => {
         slider.scrollLeft += 325;
     };
 
-    const [trails, setTrails] = useState([]);
-
     const handleArrowVisibility = () => {
         const slider = document.getElementById(`slider${props.childNo}`);
         const leftArrow = document.getElementById(`arrow-left${props.childNo}`);
         const rightArrow = document.getElementById(
             `arrow-right${props.childNo}`
         );
+
+        if (!slider) return;
+
         if (
             slider.scrollLeft === 0 ||
             slider.scrollWidth <= slider.clientWidth
@@ -51,14 +47,8 @@ const TileGroup = (props) => {
     useEffect(() => {
         handleArrowVisibility();
         const slider = document.getElementById(`slider${props.childNo}`);
-        slider.addEventListener("scroll", handleArrowVisibility);
+        if (slider) slider.addEventListener("scroll", handleArrowVisibility);
     });
-
-    useEffect(() => {
-        getTrailDetails(10000147, "ohio").then((response) => {
-            setTrails([response, response, response, response]);
-        });
-    }, []);
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -74,13 +64,23 @@ const TileGroup = (props) => {
     const id = open ? "simple-popover" : undefined;
 
     const getFilterContent = () => {
-        if (props.title === "Top Rated Trails")
-            return <RatingFilter ratings={[1, 2, 3, 4, 5]} />;
-        else if (props.title === "Lengthy Trails") return <LengthFilter />;
-        else if (props.title === "Difficult Trails")
-            return <DifficultyFilter />;
+        if (!props.popoverContent) return <></>;
         return (
-            <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+            <>
+                <FcFilledFilter className="filter-icon" onClick={handleClick} />
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                    }}
+                >
+                    {props.popoverContent}
+                </Popover>
+            </>
         );
     };
 
@@ -89,52 +89,45 @@ const TileGroup = (props) => {
             <div className="title-container">
                 <span className="title">
                     {props.title} &nbsp; &nbsp;
-                    <FcFilledFilter
-                        className="filter-icon"
-                        display={
-                            props.title !== "Recommended" ? "block" : "none"
-                        }
-                        onClick={handleClick}
-                    />
-                    <Popover
-                        id={id}
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "left",
-                        }}
-                    >
-                        {getFilterContent()}
-                    </Popover>
+                    {getFilterContent()}
                 </span>
             </div>
             <div className="tile-group-parent">
-                <MdChevronLeft
-                    className="arrow arrow-left"
-                    id={`arrow-left${props.childNo}`}
-                    size={40}
-                    onClick={slideLeft}
-                />
-                <div
-                    id={"slider" + props.childNo}
-                    className="tile-group-container disable-scrollbars"
-                >
-                    {trails.map((trail, index) => {
-                        return (
-                            <div className="trail-card-parent" key={index}>
-                                <TrailCard trail={trail} />
-                            </div>
-                        );
-                    })}
-                </div>
-                <MdChevronRight
-                    className="arrow arrow-right"
-                    id={`arrow-right${props.childNo}`}
-                    size={40}
-                    onClick={slideRight}
-                />
+                {props?.trails ? (
+                    <>
+                        <MdChevronLeft
+                            className="arrow arrow-left"
+                            id={`arrow-left${props.childNo}`}
+                            size={40}
+                            onClick={slideLeft}
+                        />
+                        <div
+                            id={"slider" + props.childNo}
+                            className="tile-group-container disable-scrollbars"
+                        >
+                            {props?.trails?.map((trail, index) => {
+                                return (
+                                    <div
+                                        className="trail-card-parent"
+                                        key={index}
+                                    >
+                                        <TrailCard trail={trail} />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <MdChevronRight
+                            className="arrow arrow-right"
+                            id={`arrow-right${props.childNo}`}
+                            size={40}
+                            onClick={slideRight}
+                        />
+                    </>
+                ) : (
+                    <div className="empty-trails">
+                        <h1>No Matching Trails!</h1>
+                    </div>
+                )}
             </div>
         </div>
     );

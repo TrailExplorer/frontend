@@ -1,3 +1,4 @@
+import TileGroup from "../../TileGroup/TileGroup";
 import "./RatingFilter.css";
 import React, { useState } from "react";
 
@@ -8,7 +9,7 @@ const RatingFilter = () => {
         setSelectedRating(rating);
     };
 
-    return (
+    const popoverContent = (
         <div className="rating-filter">
             {ratings.map((rating) => (
                 <button
@@ -16,11 +17,21 @@ const RatingFilter = () => {
                         selectedRating === rating ? "selected" : ""
                     }`}
                     onClick={() => handleRatingChange(rating)}
+                    key={rating}
                 >
                     &gt;= {rating}
                 </button>
             ))}
         </div>
+    );
+
+    return (
+        <TileGroup
+            title="Highly Rated Trails"
+            className="tile"
+            childNo={1}
+            popoverContent={popoverContent}
+        />
     );
 };
 
