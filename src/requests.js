@@ -1,56 +1,49 @@
 import axios from "axios";
 
-export const getTrailDetails = async (trail_id, state_name) => {
+const API_URL = "http://34.221.171.212:8080/";
+
+const backendRequest = async (url, method, params) => {
     try {
         const response = await axios({
-            method: "GET",
-            url: `http://34.221.171.212:8080/get-trail-details`,
-            params: {
-                state_name,
-                trail_id,
-            },
+            method,
+            url: API_URL + url,
+            params,
         });
-
         return response.data;
     } catch (error) {
         console.error(error);
     }
+};
+
+export const getTrailDetails = async (trail_id, state_name) => {
+    return await backendRequest("get-trail-details", "GET", {
+        trail_id,
+        state_name: state_name ? state_name.toLowerCase() : null,
+    });
 };
 
 export const getTrailsByDifficulty = async (
     state_name = "",
     difficulty_rating = 0
 ) => {
-    try {
-        const response = await axios({
-            method: "GET",
-            url: `http://34.221.171.212:8080/get-trails-by-difficulty-rating`,
-            params: {
-                state_name: state_name ? state_name.toLowerCase() : null,
-                difficulty_rating,
-            },
-        });
-
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
+    return await backendRequest("get-trails-by-difficulty-rating", "GET", {
+        state_name: state_name ? state_name.toLowerCase() : null,
+        difficulty_rating,
+    });
 };
 
 export const getTrailsByLength = async (state_name = "", length = 0) => {
-    try {
-        const response = await axios({
-            method: "GET",
-            url: `http://34.221.171.212:8080/get-trails-by-length`,
-            params: {
-                state_name: state_name ? state_name.toLowerCase() : null,
-                length,
-            },
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
+    return await backendRequest("get-trails-by-length", "GET", {
+        state_name: state_name ? state_name.toLowerCase() : null,
+        length,
+    });
+};
+
+export const getTrailsByRating = async (rating = 0, state_name = "") => {
+    return await backendRequest("get-trails-by-rating", "GET", {
+        rating,
+        state_name: state_name ? state_name.toLowerCase() : null,
+    });
 };
 
 export const getStateNameByLatitudAndLongitude = async (

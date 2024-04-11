@@ -64,9 +64,9 @@ const Home = () => {
                     </div>
 
                     <div className="tileGroups grid">
-                        <Recommendations />
-                        <RatingFilter />
-                        <LengthFilter />
+                        <Recommendations stateName={stateName} />
+                        <RatingFilter stateName={stateName} />
+                        <LengthFilter stateName={stateName} />
                         <DifficultyFilter stateName={stateName} />
                     </div>
                 </div>
