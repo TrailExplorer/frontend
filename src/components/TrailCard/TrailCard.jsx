@@ -1,48 +1,40 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./TrailCard.module.css";
 
 const TrailCard = (props) => {
+    const dataToSend = { props };
     const getTags = () => {
         const tags = [];
         for (let i = 0; i < Math.min(props?.trail?.features.length, 3); i++) {
-            tags.push(<span>{props?.trail?.features[i]}</span>);
+            tags.push(<span key={props?.trail?.features[i]}>{props?.trail?.features[i]}</span>); // Use the feature as a key if it's unique
         }
         return tags;
     };
+    
 
     const getStars = () => {
         const stars = [];
         let rating = Number(props?.trail?.avg_rating);
         for (let i = 0; i < 5; i++) {
-            if (rating >= 1) {
-                stars.push(
-                    <i
-                        className={`fa fa-star ${styles.fa}`}
-                        aria-hidden="true"
-                    ></i>
-                );
-                rating--;
-            } else if (rating > 0) {
-                stars.push(
-                    <i
-                        className={`fa fa-star-half-o ${styles.fa}`}
-                        aria-hidden="true"
-                    ></i>
-                );
-                rating = 0;
-            } else {
-                stars.push(
-                    <i
-                        className={`fa fa-star-o ${styles.fa}`}
-                        aria-hidden="true"
-                    ></i>
-                );
-            }
+            stars.push(
+                <i
+                    key={i} // Add a unique key prop here
+                    className={`fa ${rating >= 1 ? 'fa-star' : rating > 0 ? 'fa-star-half-o' : 'fa-star-o'} ${styles.fa}`}
+                    aria-hidden="true"
+                ></i>
+            );
+            rating--;
         }
         return stars;
     };
+    
 
     return (
+        <Link to={{
+            pathname: `/${props.trail.state_name}/${props.trail.trail_id}`,
+            state: { trail: dataToSend.trail }// Pass the trail data in the state object
+          }} style={{ textDecoration: 'none' }}> {/* Use props.trail.id or any identifier */}
         <button className={styles.card}>
             <div className={styles.poster}>
                 <img
@@ -74,6 +66,7 @@ const TrailCard = (props) => {
                 </div>
             </div>
         </button>
+        </Link>
     );
 };
 
