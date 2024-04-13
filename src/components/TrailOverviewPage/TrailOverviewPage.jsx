@@ -63,7 +63,6 @@ const TrailOverviewPage = () => {
     }, [state_name, id]);
 
 
-    const kelvinToFahrenheit = (kelvin) => Math.round((kelvin - 273.15) * 9/5 + 32);
     const formatTime = (timestamp) => {
         const date = new Date(timestamp * 1000);
         const hours = date.getHours();
