@@ -33,9 +33,10 @@ export const getTrailsByDifficulty = async (
 };
 
 export const getTrailsByLength = async (state_name = "", length = 0) => {
+    let milesToMetres = length * 1609.34;
     return await backendRequest("get-trails-by-length", "GET", {
         state_name: state_name ? state_name.toLowerCase() : null,
-        length,
+        length: milesToMetres,
     });
 };
 
@@ -60,7 +61,7 @@ export const getStateNameByLatitudAndLongitude = async (
                 format: "json",
             },
         });
-        const stateName = response.features[0].properties.address.state;
+        const stateName = response.data.address.state;
         return stateName;
     } catch (error) {
         console.error("Error:", error);

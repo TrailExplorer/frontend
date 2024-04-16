@@ -93,7 +93,7 @@ const TileGroup = (props) => {
                 </span>
             </div>
             <div className="tile-group-parent">
-                {props?.trails ? (
+                {props?.trails?.length > 0 ? (
                     <>
                         <MdChevronLeft
                             className="arrow arrow-left"
