@@ -1,24 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../Home/Home.scss";
 import "../Home/Home.css";
-import TileGroup from "../TileGroup/TileGroup";
-
-const subsections = [
-    {
-        title: "Recommended",
-    },
-    {
-        title: "Top Rated Trails",
-    },
-    {
-        title: "Lengthy Trails",
-    },
-    {
-        title: "Difficult Trails",
-    },
-];
+import Recommendations from "../Filters/Recommendations/Recommendations";
+import RatingFilter from "../Filters/RatingFilte/RatingFilter";
+import LengthFilter from "../Filters/LengthFilter/LengthFilter";
+import DifficultyFilter from "../Filters/DifficultyFilter/DifficultyFilter";
+import { getStateNameByLatitudAndLongitude } from "../../requests";
 
 const Home = () => {
+    const [stateName, setStateName] = useState("");
+    useEffect(() => {
+        const getStateName = async () => {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                const stateName = await getStateNameByLatitudAndLongitude(
+                    latitude,
+                    longitude
+                );
+
+                setStateName(stateName);
+            });
+        };
+        getStateName();
+    }, []);
+
     return (
         <React.Fragment>
             <section className="home">
@@ -56,15 +62,12 @@ const Home = () => {
 
                         <button className="btn">Search</button>
                     </div>
+
                     <div className="tileGroups grid">
-                        {subsections.map((subsection, index) => (
-                            <TileGroup
-                                title={subsection.title}
-                                className="tile"
-                                key={index}
-                                childNo={index}
-                            />
-                        ))}
+                        <Recommendations stateName={stateName} />
+                        <RatingFilter stateName={stateName} />
+                        <LengthFilter stateName={stateName} />
+                        <DifficultyFilter stateName={stateName} />
                     </div>
                 </div>
             </section>

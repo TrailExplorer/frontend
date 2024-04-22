@@ -1,33 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { TextField, Button } from "@mui/material";
+import { TextField } from "@mui/material";
 import "./LengthFilter.css";
+import TileGroup from "../../TileGroup/TileGroup";
+import { getTrailsByLength } from "../../../requests";
 
-const LengthFilter = () => {
-    const [minLength, setMinLength] = useState(0);
-
-    const [maxLength, setMaxLength] = useState(10);
-
-    const handleMinLengthChange = (e) => {
-        setMinLength(Number(e.target.value));
-    };
+const LengthFilter = (props) => {
+    const [maxLength, setMaxLength] = useState(1);
+    const [trails, setTrails] = useState([]);
 
     const handleMaxLengthChange = (e) => {
         setMaxLength(Number(e.target.value));
     };
 
-    const handleFilter = () => {};
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            getTrailsByLength(props?.stateName, maxLength).then((response) => {
+                setTrails(response);
+            });
+        }, 500);
 
-    return (
+        return () => clearTimeout(timer);
+    }, [props?.stateName, maxLength]);
+
+    const popoverContent = (
         <form className="length-filter">
-            <TextField
-                type="number"
-                id="minLength"
-                label="Minimum Length (miles)"
-                value={minLength}
-                onChange={handleMinLengthChange}
-            />
-
             <TextField
                 type="number"
                 id="maxLength"
@@ -35,16 +32,17 @@ const LengthFilter = () => {
                 value={maxLength}
                 onChange={handleMaxLengthChange}
             />
-
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleFilter}
-                type="submit"
-            >
-                Filter
-            </Button>
         </form>
+    );
+
+    return (
+        <TileGroup
+            title="Lengthy Trails"
+            className="tile"
+            childNo={2}
+            popoverContent={popoverContent}
+            trails={trails}
+        />
     );
 };
 
