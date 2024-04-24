@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./TrailCard.module.css";
+import { getImageURL } from "../../requests";
 
 const TrailCard = (props) => {
     const dataToSend = { props };
@@ -53,8 +54,8 @@ const TrailCard = (props) => {
                     <img
                         alt="trail"
                         src={
-                            props?.trail?.imageUrl
-                                ? props?.trail?.imageUrl
+                            props?.trail?.photo_references
+                                ? getImageURL(props?.trail?.trail_id, 0)
                                 : "https://images.pexels.com/photos/554609/pexels-photo-554609.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                         }
                     />

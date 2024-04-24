@@ -18,7 +18,6 @@
   font-size: 2rem;
   font-weight: 700;
   line-height: 2.5rem;
-  text-transform: capitalize;
 }
 .home .seccontainer .homeText .subTitle {
   color: var(--whiteColor);
@@ -29,7 +28,6 @@
   max-width: 70%;
   text-align: center;
   margin: auto;
-  text-transform: capitalize;
 }
 .home .seccontainer .homeText .btn {
   padding: 0.6rem 1.5rem;
@@ -64,7 +62,9 @@
   padding-bottom: 0.4rem;
 }
 .home .seccontainer .homeCard .locationDiv input,
-.home .seccontainer .homeCard .trailLengthDiv input {
+.home .seccontainer .homeCard .locationDiv select,
+.home .seccontainer .homeCard .trailLengthDiv input,
+.home .seccontainer .homeCard .trailLengthDiv select {
   width: 100%;
   background: var(--inputColor);
   border-radius: 10px;
@@ -73,23 +73,29 @@
   font-size: 13px;
   font-weight: 500;
 }
-.home .seccontainer .homeCard .locationDiv input::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv input::-moz-placeholder {
+.home .seccontainer .homeCard .locationDiv input::-moz-placeholder, .home .seccontainer .homeCard .locationDiv select::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv input::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv select::-moz-placeholder {
   font-size: 13px;
   opacity: 0.5;
   font-weight: 400;
 }
 .home .seccontainer .homeCard .locationDiv input::placeholder,
-.home .seccontainer .homeCard .trailLengthDiv input::placeholder {
+.home .seccontainer .homeCard .locationDiv select::placeholder,
+.home .seccontainer .homeCard .trailLengthDiv input::placeholder,
+.home .seccontainer .homeCard .trailLengthDiv select::placeholder {
   font-size: 13px;
   opacity: 0.5;
   font-weight: 400;
 }
 .home .seccontainer .homeCard .locationDiv input:focus,
-.home .seccontainer .homeCard .trailLengthDiv input:focus {
+.home .seccontainer .homeCard .locationDiv select:focus,
+.home .seccontainer .homeCard .trailLengthDiv input:focus,
+.home .seccontainer .homeCard .trailLengthDiv select:focus {
   outline: none;
 }
 .home .seccontainer .homeCard .locationDiv input .btn,
-.home .seccontainer .homeCard .trailLengthDiv input .btn {
+.home .seccontainer .homeCard .locationDiv select .btn,
+.home .seccontainer .homeCard .trailLengthDiv input .btn,
+.home .seccontainer .homeCard .trailLengthDiv select .btn {
   width: 100%;
   padding: 0.6rem 0.5rem;
   color: var(--whiteColor);

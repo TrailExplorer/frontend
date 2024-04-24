@@ -47,6 +47,13 @@ export const getTrailsByRating = async (rating = 0, state_name = "") => {
     });
 };
 
+export const getSearchResults = async (state_name, trail_name = "") => {
+    return await backendRequest("trails-search", "GET", {
+        state_name: state_name.toLowerCase(),
+        trail_name,
+    });
+};
+
 export const getStateNameByLatitudAndLongitude = async (
     latitude,
     longitude
@@ -66,4 +73,8 @@ export const getStateNameByLatitudAndLongitude = async (
     } catch (error) {
         console.error("Error:", error);
     }
+};
+
+export const getImageURL = (trail_id, image_num) => {
+    return `https://trail-explorer-images.s3.us-west-2.amazonaws.com/${trail_id}_${image_num}.jpg`;
 };

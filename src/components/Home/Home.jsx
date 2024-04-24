@@ -1,29 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "../Home/Home.scss";
 import "../Home/Home.css";
-import Recommendations from "../Filters/Recommendations/Recommendations";
 import RatingFilter from "../Filters/RatingFilte/RatingFilter";
 import LengthFilter from "../Filters/LengthFilter/LengthFilter";
 import DifficultyFilter from "../Filters/DifficultyFilter/DifficultyFilter";
-import { getStateNameByLatitudAndLongitude } from "../../requests";
+import Search from "../Search/Search";
+import states from "./USStates.json";
+import { Link } from "react-router-dom";
 
-const Home = () => {
-    const [stateName, setStateName] = useState("");
+const Home = (props) => {
+    const {
+        showSearchResults,
+        setShowSearchResults,
+        maxLength,
+        setMaxLength,
+        lengthTrails,
+        selectedDifficulty,
+        setSelectedDifficulty,
+        difficultTrails,
+        selectedRating,
+        setSelectedRating,
+        ratingTrails,
+        selectedState,
+        setSelectedState,
+        selectedTrailName,
+        setSelectedTrailName,
+        searchResults,
+        handleSearch,
+    } = props;
+
+    const [randomTrail, setRandomTrail] = React.useState(null);
     useEffect(() => {
-        const getStateName = async () => {
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                const stateName = await getStateNameByLatitudAndLongitude(
-                    latitude,
-                    longitude
-                );
+        setRandomTrail(
+            ratingTrails[Math.floor(Math.random() * ratingTrails.length)]
+        );
+    }, [ratingTrails]);
 
-                setStateName(stateName);
-            });
-        };
-        getStateName();
-    }, []);
+    const getRandomTrail = () => {
+        if (!randomTrail) return "/";
+        return `/${randomTrail.state_name.toLowerCase()}/${
+            randomTrail.trail_id
+        }`;
+    };
 
     return (
         <React.Fragment>
@@ -35,39 +53,88 @@ const Home = () => {
                             Explore the best trails in the world
                         </p>
                         <button className="btn">
-                            <a href="#home">Explore</a>
+                            <Link to={getRandomTrail()}>Explore</Link>
                         </button>
                     </div>
-                    <div className="homeCard grid">
+                    <form className="homeCard grid">
                         <div className="inputgroup">
                             <div className="locationDiv">
-                                <label htmlFor="location">Location</label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter Location"
-                                />
+                                <label htmlFor="statename">State Name</label>
+                                <select
+                                    name="stateName"
+                                    required={true}
+                                    value={selectedState}
+                                    onChange={(e) => {
+                                        setSelectedState(e.target.value);
+                                    }}
+                                >
+                                    {states.map((state) => {
+                                        return (
+                                            <option
+                                                key={state}
+                                                value={state.toLowerCase()}
+                                            >
+                                                {state}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
                             </div>
 
-                            <div className="trailLengthDiv">
-                                <label htmlFor="trailLength">
-                                    Trail Length
-                                </label>
+                            <div
+                                className="trailLengthDiv"
+                                value={selectedTrailName}
+                                onChange={(e) => {
+                                    setSelectedTrailName(e.target.value);
+                                }}
+                            >
+                                <label htmlFor="trailName">Trail Name</label>
                                 <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Trail Length"
+                                    type="text"
+                                    name="trailName"
+                                    placeholder="Enter Trail Name"
                                 />
                             </div>
                         </div>
 
-                        <button className="btn">Search</button>
-                    </div>
+                        <button
+                            className="btn"
+                            type="submit"
+                            onClick={handleSearch}
+                        >
+                            Search
+                        </button>
+                    </form>
 
                     <div className="tileGroups grid">
-                        <Recommendations stateName={stateName} />
-                        <RatingFilter stateName={stateName} />
-                        <LengthFilter stateName={stateName} />
-                        <DifficultyFilter stateName={stateName} />
+                        {showSearchResults && (
+                            <Search
+                                title="Search Results"
+                                setShowSearchResults={setShowSearchResults}
+                                trails={searchResults}
+                            />
+                        )}
+                        {!showSearchResults && (
+                            <>
+                                <LengthFilter
+                                    setMaxLength={setMaxLength}
+                                    trails={lengthTrails}
+                                    maxLength={maxLength}
+                                />
+                                <DifficultyFilter
+                                    selectedDifficulty={selectedDifficulty}
+                                    setSelectedDifficulty={
+                                        setSelectedDifficulty
+                                    }
+                                    trails={difficultTrails}
+                                />
+                                <RatingFilter
+                                    selectedRating={selectedRating}
+                                    setSelectedRating={setSelectedRating}
+                                    trails={ratingTrails}
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             </section>
