@@ -115,4 +115,7 @@
 
 .capitalize {
     text-transform: capitalize;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

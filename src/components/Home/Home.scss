@@ -69,7 +69,8 @@
                     padding-bottom: 0.4rem;
                 }
 
-                input {
+                input,
+                select {
                     width: 100%;
                     background: var(--inputColor);
                     border-radius: 10px;
