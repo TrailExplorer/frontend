@@ -19,6 +19,7 @@ import stormIcon from '../../Assets/storm.svg';
 import { Line } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+import { getImageURL } from '../../requests';
 
 export const WeatherIcons = {
     "01d": sunnyIcon,
@@ -42,25 +43,51 @@ const TrailOverviewPage = () => {
     const [trail, setTrail] = useState(null);
     const [weather, setWeather] = useState(null);
     const [forecast, setForecast] = useState(null);
+    const [chartData, setChartData] = useState({
+        labels: ['Sea Level', 'Ground Level', 'Elevation Gain'],
+        datasets: [
+            {
+                label: 'Elevation (hPa / ft)',
+                data: [],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }
+        ]
+    });
 
     useEffect(() => {
+        let localTrailDetails = null; 
         getTrailDetails(id, state_name)
             .then(trailDetails => {
+                localTrailDetails = trailDetails;
                 setTrail(trailDetails);
                 // Fetch both weather data and forecast after trail details are set
                 return Promise.all([
                     fetchWeatherData(trailDetails._geoloc.lat, trailDetails._geoloc.lng),
-                    fetchWeatherForecast(trailDetails._geoloc.lat, trailDetails._geoloc.lng)
+                    fetchWeatherForecast(trailDetails._geoloc.lat, trailDetails._geoloc.lng),
+                    Promise.resolve(trailDetails)
                 ]);
             })
             .then(([weatherData, forecastData]) => {
                 setWeather(weatherData);
                 setForecast(forecastData);
+                setChartData({
+                    labels: ['Sea Level', 'Ground Level', 'Elevation Gain'],
+                    datasets: [{
+                        label: 'Elevation (ft)',
+                        data: [weatherData.main.sea_level = 0 , localTrailDetails.elevation_gain, localTrailDetails.sea_level = 0],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                });
             })
             .catch(error => {
                 console.error('Error fetching trail or weather details:', error);
             });
     }, [state_name, id]);
+
 
 
     const formatTime = (timestamp) => {
@@ -70,13 +97,14 @@ const TrailOverviewPage = () => {
         return `${hours}:${minutes.substr(-2)}`;
     };
 
+    const imageCount = 5;
     const prepareForecastTemperatureData = (forecastData) => {
         if (!forecastData) return;
 
-        const labels = forecastData.list.map(item =>
-            new Date(item.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
-        );
-        
+        const labels = forecastData.list.map(item => {
+            const date = new Date(item.dt_txt);
+            return `${date.toLocaleDateString('en-US', { weekday: 'short' })} ${date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })}`;
+        });
         const data = forecastData.list.map(item => (item.main.temp)*(9/5) + 32)
 
         return {
@@ -92,9 +120,10 @@ const TrailOverviewPage = () => {
     };
 
     const preparePrecipitationData = (forecastData) => {
-        const labels = forecastData.list.map(item =>
-            new Date(item.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
-        );
+        const labels = forecastData.list.map(item => {
+            const date = new Date(item.dt_txt);
+            return `${date.toLocaleDateString('en-US', { weekday: 'short' })} ${date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })}`;
+        });
 
         const precipitationData = forecastData.list.map(item =>
             item.rain ? item.rain['3h'] : 0  // Check if rain data exists, otherwise return 0
@@ -123,12 +152,13 @@ const TrailOverviewPage = () => {
         for (let i = 0; i < 5; i++) {
             if (rating >= 1) {
                 stars.push(<span key={i} className="fullStar">★</span>);
-            } else if (rating > 0) {
+                rating -= 1;
+            } else if (rating > 0 && rating < 1) {
                 stars.push(<span key={i} className="halfStar">★</span>);
+                rating -= 1; 
             } else {
                 stars.push(<span key={i} className="emptyStar">☆</span>);
             }
-            rating--;
         }
         return stars;
     };
@@ -157,7 +187,9 @@ const TrailOverviewPage = () => {
                         </div>
                         <div className="detailItem">
                             <span className="detailTitle">Elevation gain</span>
-                            <span className="detailValue">{(trail.elevation_gain)} ft</span>
+                            <span className="detailValue">{trail && trail.elevation_gain != null && !isNaN(trail.elevation_gain)
+            ? `${Number(trail.elevation_gain).toFixed(2)} ft`
+            : (trail.elevation_gain)} </span>
                         </div>
                         <div className="detailItem">
                             <span className="detailTitle">Route type</span>
@@ -226,6 +258,27 @@ const TrailOverviewPage = () => {
                     )}
                     </div>
                 </div>
+
+                <div className="elevationSection">
+                    <h2>Elevation Data</h2>
+                    <div className="chartContainer1">
+                        <Line data={chartData} options={{ responsive: true }} />
+                    </div>
+                </div>
+
+                <div className="imageGallerySection">
+    <h2>Image Gallery</h2>
+    <div className="imageGallery">
+        {Array.from({ length: imageCount }, (_, i) => getImageURL(id, i)).map((url, index) => (
+            <img       
+                key = {index} 
+                src={url}
+                alt={`Trail view ${index + 1}`}
+                style={{ width: '100%', maxWidth: '300px', margin: '10px' }}
+            />
+        ))}
+    </div>
+</div>
                 </div>
 
                 <div className="sidebar">
@@ -253,3 +306,4 @@ const TrailOverviewPage = () => {
 };
 
 export default TrailOverviewPage;
+

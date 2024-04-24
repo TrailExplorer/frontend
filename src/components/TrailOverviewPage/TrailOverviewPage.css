@@ -65,7 +65,7 @@
 
 .weatherDataSection {
     margin-top: 20px;
-    margin-bottom: 40px;;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -124,12 +124,38 @@
     position: relative;
 }
 
+.elevationSection {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;  
+
+}
+
+.elevationSection h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
 .chartContainer {
     width: 100%;
     padding: 10px;
     background: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+}
+
+.chartContainer1 {
+    width: 50%;
+    padding: 10px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: auto;
 }
 
 .rating .halfStar:before {
@@ -141,6 +167,29 @@
     clip-path: inset(0 50% 0 0); /* Clips the star to half its width */
     z-index: 1;
 }
+
+.imageGallerySection {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width:100%;/* Subtle shadow for depth */
+}
+
+.imageGallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.imageGallery img {
+    flex-grow: 1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
 
 .rating .emptyStar {
     color: #ccc;
@@ -316,3 +365,12 @@
     clear: both;
     display: table;
 }
+
+
+
+
+
+
+
+
+
