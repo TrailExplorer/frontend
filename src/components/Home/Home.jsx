@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../Home/Home.scss";
 import "../Home/Home.css";
 import RatingFilter from "../Filters/RatingFilte/RatingFilter";
@@ -6,6 +6,7 @@ import LengthFilter from "../Filters/LengthFilter/LengthFilter";
 import DifficultyFilter from "../Filters/DifficultyFilter/DifficultyFilter";
 import Search from "../Search/Search";
 import states from "./USStates.json";
+import { Link } from "react-router-dom";
 
 const Home = (props) => {
     const {
@@ -28,6 +29,20 @@ const Home = (props) => {
         handleSearch,
     } = props;
 
+    const [randomTrail, setRandomTrail] = React.useState(null);
+    useEffect(() => {
+        setRandomTrail(
+            ratingTrails[Math.floor(Math.random() * ratingTrails.length)]
+        );
+    }, [ratingTrails]);
+
+    const getRandomTrail = () => {
+        if (!randomTrail) return "/";
+        return `/${randomTrail.state_name.toLowerCase()}/${
+            randomTrail.trail_id
+        }`;
+    };
+
     return (
         <React.Fragment>
             <section className="home">
@@ -38,7 +53,7 @@ const Home = (props) => {
                             Explore the best trails in the world
                         </p>
                         <button className="btn">
-                            <a href="#home">Explore</a>
+                            <Link to={getRandomTrail()}>Explore</Link>
                         </button>
                     </div>
                     <form className="homeCard grid">
