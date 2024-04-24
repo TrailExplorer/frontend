@@ -1,79 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../Home/Home.scss";
 import "../Home/Home.css";
 import RatingFilter from "../Filters/RatingFilte/RatingFilter";
 import LengthFilter from "../Filters/LengthFilter/LengthFilter";
 import DifficultyFilter from "../Filters/DifficultyFilter/DifficultyFilter";
-import { getStateNameByLatitudAndLongitude } from "../../requests";
 import Search from "../Search/Search";
 import states from "./USStates.json";
-import {
-    getTrailsByLength,
-    getTrailsByDifficulty,
-    getTrailsByRating,
-    getSearchResults,
-} from "../../requests";
 
-const Home = () => {
-    const [stateName, setStateName] = useState("");
-    const [showSearchResults, setShowSearchResults] = useState(false);
-    const [maxLength, setMaxLength] = useState(1);
-    const [lengthTrails, setLengthTrails] = useState([]);
-    const [selectedDifficulty, setSelectedDifficulty] = useState(7);
-    const [difficultTrails, setDifficultTrails] = useState([]);
-    const [selectedRating, setSelectedRating] = useState(null);
-    const [ratingTrails, setRatingTrails] = useState([]);
-    const [selectedState, setSelectedState] = useState("alabama");
-    const [selectedTrailName, setSelectedTrailName] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            getTrailsByLength(stateName, maxLength).then((response) => {
-                setLengthTrails(response);
-            });
-        }, 500);
-
-        return () => clearTimeout(timer);
-    }, [stateName, maxLength]);
-
-    useEffect(() => {
-        getTrailsByDifficulty(stateName, selectedDifficulty).then(
-            (response) => {
-                setDifficultTrails(response);
-            }
-        );
-    }, [selectedDifficulty, stateName]);
-
-    useEffect(() => {
-        getTrailsByRating(selectedRating, stateName).then((response) => {
-            setRatingTrails(response);
-        });
-    }, [selectedRating, stateName]);
-
-    useEffect(() => {
-        const getStateName = async () => {
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                const stateName = await getStateNameByLatitudAndLongitude(
-                    latitude,
-                    longitude
-                );
-
-                setStateName(stateName);
-            });
-        };
-        getStateName();
-    }, []);
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setShowSearchResults(true);
-        getSearchResults(selectedState, selectedTrailName).then((response) => {
-            setSearchResults(response);
-        });
-    };
+const Home = (props) => {
+    const {
+        showSearchResults,
+        setShowSearchResults,
+        maxLength,
+        setMaxLength,
+        lengthTrails,
+        selectedDifficulty,
+        setSelectedDifficulty,
+        difficultTrails,
+        selectedRating,
+        setSelectedRating,
+        ratingTrails,
+        selectedState,
+        setSelectedState,
+        selectedTrailName,
+        setSelectedTrailName,
+        searchResults,
+        handleSearch,
+    } = props;
 
     return (
         <React.Fragment>
