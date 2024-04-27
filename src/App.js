@@ -22,7 +22,7 @@ function App() {
     const [difficultTrails, setDifficultTrails] = useState([]);
     const [selectedRating, setSelectedRating] = useState(null);
     const [ratingTrails, setRatingTrails] = useState([]);
-    const [selectedState, setSelectedState] = useState("alabama");
+    const [selectedState, setSelectedState] = useState("");
     const [selectedTrailName, setSelectedTrailName] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [filteredTrails, setFilteredTrails] = useState([]);
@@ -72,10 +72,6 @@ function App() {
         };
         getStateName();
     }, []);
-
-    useEffect(() => {
-        setShowSearchResults(true);
-    }, [selectedState, selectedTrailName]);
 
     useEffect(() => {
         if (!selectedState) {

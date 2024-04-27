@@ -88,9 +88,10 @@ const Home = (props) => {
                                             value={selectedState}
                                         />
                                     )}
-                                    defaultValue={"Alabama"}
+                                    defaultValue={""}
                                     onChange={(e, value) => {
                                         setSelectedState(value);
+                                        setShowSearchResults(true);
                                     }}
                                 />
                             </div>
@@ -113,6 +114,7 @@ const Home = (props) => {
                                     )}
                                     onChange={(e, value) => {
                                         setSelectedTrailName(value || "");
+                                        setShowSearchResults(true);
                                     }}
                                 />
                             </div>

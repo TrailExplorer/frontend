@@ -48,6 +48,7 @@ export const getTrailsByRating = async (rating = 0, state_name = "") => {
 };
 
 export const getSearchResults = async (state_name, trail_name = "") => {
+    if (!state_name) return [];
     return await backendRequest("trails-search", "GET", {
         state_name: state_name.toLowerCase(),
         trail_name: trail_name.toLowerCase(),
