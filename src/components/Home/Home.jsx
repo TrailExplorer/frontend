@@ -7,6 +7,7 @@ import DifficultyFilter from "../Filters/DifficultyFilter/DifficultyFilter";
 import Search from "../Search/Search";
 import states from "./USStates.json";
 import { Link } from "react-router-dom";
+import { Autocomplete, TextField } from "@mui/material";
 
 const Home = (props) => {
     const {
@@ -25,8 +26,11 @@ const Home = (props) => {
         setSelectedState,
         selectedTrailName,
         setSelectedTrailName,
-        searchResults,
         handleSearch,
+        filteredTrails,
+        setFilters,
+        filters,
+        resetFilters,
     } = props;
 
     const [randomTrail, setRandomTrail] = React.useState(null);
@@ -41,6 +45,20 @@ const Home = (props) => {
         return `/${randomTrail.state_name.toLowerCase()}/${
             randomTrail.trail_id
         }`;
+    };
+
+    const getTrailNames = () => {
+        const trailNames = [];
+        filteredTrails.forEach((trail) => {
+            const titleCaseName = trail.name
+                .toLowerCase()
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+            trailNames.push(titleCaseName);
+        });
+        trailNames.sort();
+        return trailNames;
     };
 
     return (
@@ -60,25 +78,21 @@ const Home = (props) => {
                         <div className="inputgroup">
                             <div className="locationDiv">
                                 <label htmlFor="statename">State Name</label>
-                                <select
-                                    name="stateName"
-                                    required={true}
-                                    value={selectedState}
-                                    onChange={(e) => {
-                                        setSelectedState(e.target.value);
+                                <Autocomplete
+                                    id="trailState"
+                                    className="input"
+                                    options={states}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            value={selectedState}
+                                        />
+                                    )}
+                                    defaultValue={"Alabama"}
+                                    onChange={(e, value) => {
+                                        setSelectedState(value);
                                     }}
-                                >
-                                    {states.map((state) => {
-                                        return (
-                                            <option
-                                                key={state}
-                                                value={state.toLowerCase()}
-                                            >
-                                                {state}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
+                                />
                             </div>
 
                             <div
@@ -89,10 +103,17 @@ const Home = (props) => {
                                 }}
                             >
                                 <label htmlFor="trailName">Trail Name</label>
-                                <input
-                                    type="text"
-                                    name="trailName"
-                                    placeholder="Enter Trail Name"
+                                <Autocomplete
+                                    id="trailName"
+                                    className="input"
+                                    freeSolo
+                                    options={getTrailNames()}
+                                    renderInput={(params) => (
+                                        <TextField {...params} />
+                                    )}
+                                    onChange={(e, value) => {
+                                        setSelectedTrailName(value || "");
+                                    }}
                                 />
                             </div>
                         </div>
@@ -111,7 +132,11 @@ const Home = (props) => {
                             <Search
                                 title="Search Results"
                                 setShowSearchResults={setShowSearchResults}
-                                trails={searchResults}
+                                filteredTrails={filteredTrails}
+                                selectedTrailName={selectedTrailName}
+                                setFilters={setFilters}
+                                filters={filters}
+                                resetFilters={resetFilters}
                             />
                         )}
                         {!showSearchResults && (
