@@ -17,13 +17,13 @@ function Navbar() {
         <header className="App-header">
           <nav className={`${styles.navbar}`}>
             {/* logo */}
-            <a href='#home' className={`${styles.logo}`}>TrailExplorer </a>
+            <a href='/' className={`${styles.logo}`}>TrailExplorer </a>
             <ul className={`${styles.navMenu} ${isActive ? styles.active : ''}`}>
               <li onClick={removeActive}>
-                <a href='#home' className={`${styles.navLink}`}>Home</a>
+                <a href='/' className={`${styles.navLink}`}>Home</a>
               </li>
               <li onClick={removeActive}>
-                <a href='#home' className={`${styles.navLink}`}>About Us</a>
+                <a href='/aboutus' className={`${styles.navLink}`}>About Us</a>
               </li>
               <li onClick={removeActive}>
                 <a href='#home' className={`${styles.navLink}`}>All products</a>
