@@ -76,7 +76,7 @@ const TrailCard = (props) => {
                     </div>
                     <div className={styles.tags}>{getTags()}</div>
                     <div className={styles.info}>
-                        <p>{props?.trail?.description || "Lorum Ipsum"}</p>
+                        <p>{props?.trail?.description}</p>
                     </div>
                 </div>
             </button>

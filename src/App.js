@@ -22,9 +22,16 @@ function App() {
     const [difficultTrails, setDifficultTrails] = useState([]);
     const [selectedRating, setSelectedRating] = useState(null);
     const [ratingTrails, setRatingTrails] = useState([]);
-    const [selectedState, setSelectedState] = useState("alabama");
+    const [selectedState, setSelectedState] = useState("");
     const [selectedTrailName, setSelectedTrailName] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [filteredTrails, setFilteredTrails] = useState([]);
+    const [filters, setFilters] = useState({
+        filterDifficulty: 7,
+        filterLength: 15,
+        filterRating: 5,
+        filterElevation: 20000,
+    });
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -66,12 +73,45 @@ function App() {
         getStateName();
     }, []);
 
+    useEffect(() => {
+        if (!selectedState) {
+            setSearchResults([]);
+            return;
+        }
+        getSearchResults(selectedState).then((response) => {
+            response.sort((a, b) => a.name.localeCompare(b.name));
+            setSearchResults(response);
+        });
+    }, [selectedState]);
+
+    useEffect(() => {
+        const tempTrails = searchResults.filter((trail) => {
+            return (
+                trail.name.includes(selectedTrailName.toLowerCase()) &&
+                Number(trail.difficulty_rating) <=
+                    Number(filters.filterDifficulty) &&
+                Number(trail.length) <=
+                    Number(filters.filterLength) * 1609.34 &&
+                Number(trail.avg_rating) <= Number(filters.filterRating) &&
+                Number(trail.elevation_gain) <= Number(filters.filterElevation)
+            );
+        });
+        tempTrails.sort((a, b) => a.name.localeCompare(b.name));
+        setFilteredTrails(tempTrails);
+    }, [searchResults, selectedTrailName, filters]);
+
+    const resetFilters = () => {
+        setFilters({
+            filterDifficulty: 7,
+            filterLength: 15,
+            filterRating: 5,
+            filterElevation: 20000,
+        });
+    };
+
     const handleSearch = (e) => {
         e.preventDefault();
         setShowSearchResults(true);
-        getSearchResults(selectedState, selectedTrailName).then((response) => {
-            setSearchResults(response);
-        });
     };
 
     return (
@@ -102,6 +142,10 @@ function App() {
                                 setSelectedTrailName={setSelectedTrailName}
                                 searchResults={searchResults}
                                 handleSearch={handleSearch}
+                                filteredTrails={filteredTrails}
+                                filters={filters}
+                                setFilters={setFilters}
+                                resetFilters={resetFilters}
                             />
                         }
                     />

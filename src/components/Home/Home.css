@@ -63,8 +63,10 @@
 }
 .home .seccontainer .homeCard .locationDiv input,
 .home .seccontainer .homeCard .locationDiv select,
+.home .seccontainer .homeCard .locationDiv .input,
 .home .seccontainer .homeCard .trailLengthDiv input,
-.home .seccontainer .homeCard .trailLengthDiv select {
+.home .seccontainer .homeCard .trailLengthDiv select,
+.home .seccontainer .homeCard .trailLengthDiv .input {
   width: 100%;
   background: var(--inputColor);
   border-radius: 10px;
@@ -73,33 +75,47 @@
   font-size: 13px;
   font-weight: 500;
 }
-.home .seccontainer .homeCard .locationDiv input::-moz-placeholder, .home .seccontainer .homeCard .locationDiv select::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv input::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv select::-moz-placeholder {
+.home .seccontainer .homeCard .locationDiv input::-moz-placeholder, .home .seccontainer .homeCard .locationDiv select::-moz-placeholder, .home .seccontainer .homeCard .locationDiv .input::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv input::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv select::-moz-placeholder, .home .seccontainer .homeCard .trailLengthDiv .input::-moz-placeholder {
   font-size: 13px;
   opacity: 0.5;
   font-weight: 400;
 }
 .home .seccontainer .homeCard .locationDiv input::placeholder,
 .home .seccontainer .homeCard .locationDiv select::placeholder,
+.home .seccontainer .homeCard .locationDiv .input::placeholder,
 .home .seccontainer .homeCard .trailLengthDiv input::placeholder,
-.home .seccontainer .homeCard .trailLengthDiv select::placeholder {
+.home .seccontainer .homeCard .trailLengthDiv select::placeholder,
+.home .seccontainer .homeCard .trailLengthDiv .input::placeholder {
   font-size: 13px;
   opacity: 0.5;
   font-weight: 400;
 }
 .home .seccontainer .homeCard .locationDiv input:focus,
 .home .seccontainer .homeCard .locationDiv select:focus,
+.home .seccontainer .homeCard .locationDiv .input:focus,
 .home .seccontainer .homeCard .trailLengthDiv input:focus,
-.home .seccontainer .homeCard .trailLengthDiv select:focus {
+.home .seccontainer .homeCard .trailLengthDiv select:focus,
+.home .seccontainer .homeCard .trailLengthDiv .input:focus {
   outline: none;
 }
 .home .seccontainer .homeCard .locationDiv input .btn,
 .home .seccontainer .homeCard .locationDiv select .btn,
+.home .seccontainer .homeCard .locationDiv .input .btn,
 .home .seccontainer .homeCard .trailLengthDiv input .btn,
-.home .seccontainer .homeCard .trailLengthDiv select .btn {
+.home .seccontainer .homeCard .trailLengthDiv select .btn,
+.home .seccontainer .homeCard .trailLengthDiv .input .btn {
   width: 100%;
   padding: 0.6rem 0.5rem;
   color: var(--whiteColor);
   font-weight: 600;
+}
+.home .seccontainer .homeCard .locationDiv input .capitalize,
+.home .seccontainer .homeCard .locationDiv select .capitalize,
+.home .seccontainer .homeCard .locationDiv .input .capitalize,
+.home .seccontainer .homeCard .trailLengthDiv input .capitalize,
+.home .seccontainer .homeCard .trailLengthDiv select .capitalize,
+.home .seccontainer .homeCard .trailLengthDiv .input .capitalize {
+  text-transform: capitalize;
 }
 .home .seccontainer .tileGroups {
   width: 90%;

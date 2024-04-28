@@ -4,39 +4,26 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Pagination from "@mui/material/Pagination";
 import { useState } from "react";
 import { FcFilledFilter } from "react-icons/fc";
-import { MenuItem, Popover, Select, TextField } from "@mui/material";
+import { Button, MenuItem, Popover, Select, TextField } from "@mui/material";
 
 function Search(props) {
     const difficultyLevels = [1, 2, 3, 4, 5, 6, 7];
     const ratings = ["3", "3.5", "4", "4.5", "5"];
 
     const [page, setPage] = useState(1);
-    const [selectedDifficulty, setSelectedDifficulty] = useState(7);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [maxLength, setMaxLength] = useState(5);
-    const [maxElevationGain, setMaxElevationGain] = useState(2000);
-    const [selectedRating, setSelectedRating] = useState("5");
-
-    const filteredTrails = props.trails.filter((trail) => {
-        return (
-            Number(trail.difficulty_rating) <= Number(selectedDifficulty) &&
-            Number(trail.length) <= Number(maxLength) * 1609.34 &&
-            Number(trail.elevation_gain) <= Number(maxElevationGain) &&
-            Number(trail.avg_rating) <= Number(selectedRating)
-        );
-    });
 
     const getTrailCards = function () {
         const trailCards = [];
         for (
             let i = (page - 1) * 15;
-            i < Math.min(page * 15, filteredTrails.length);
+            i < Math.min(page * 15, props.filteredTrails.length);
             i++
         ) {
             trailCards.push(
                 <TrailCard
-                    trail={filteredTrails[i]}
-                    key={filteredTrails[i].id}
+                    trail={props.filteredTrails[i]}
+                    key={props.filteredTrails[i].trail_id}
                 />
             );
         }
@@ -73,9 +60,12 @@ function Search(props) {
                     labelId="difficulty-label"
                     id="difficulty"
                     onChange={(e) => {
-                        setSelectedDifficulty(e.target.value);
+                        props.setFilters({
+                            ...props.filters,
+                            filterDifficulty: e.target.value,
+                        });
                     }}
-                    value={selectedDifficulty}
+                    value={props.filters.filterDifficulty}
                 >
                     {difficultyLevels.map((level) => (
                         <MenuItem key={level} value={level}>
@@ -89,9 +79,12 @@ function Search(props) {
                     type="number"
                     id="maxLength"
                     label="Maximum Length (miles)"
-                    value={maxLength}
+                    value={props.filters.filterLength}
                     onChange={(e) => {
-                        setMaxLength(Number(e.target.value));
+                        props.setFilters({
+                            ...props.filters,
+                            filterLength: Number(e.target.value),
+                        });
                     }}
                 />
 
@@ -100,9 +93,12 @@ function Search(props) {
                     type="number"
                     id="elevationGain"
                     label="Elevation Gain (feet)"
-                    value={maxElevationGain}
+                    value={props.filters.filterElevation}
                     onChange={(e) => {
-                        setMaxElevationGain(Number(e.target.value));
+                        props.setFilters({
+                            ...props.filters,
+                            filterElevation: Number(e.target.value),
+                        });
                     }}
                 />
 
@@ -111,9 +107,12 @@ function Search(props) {
                     labelId="ratings-label"
                     id="ratings"
                     onChange={(e) => {
-                        setSelectedRating(e.target.value);
+                        props.setFilters({
+                            ...props.filters,
+                            filterRating: e.target.value,
+                        });
                     }}
-                    value={selectedRating}
+                    value={props.filters.filterRating}
                 >
                     {ratings.map((level) => (
                         <MenuItem key={level} value={level}>
@@ -121,6 +120,8 @@ function Search(props) {
                         </MenuItem>
                     ))}
                 </Select>
+
+                <Button onClick={props.resetFilter}>Clear Filter</Button>
             </div>
         );
     };
@@ -155,9 +156,9 @@ function Search(props) {
                         {popOver()}
                     </Popover>
                 </div>
-                {filteredTrails?.length ? (
+                {props.filteredTrails?.length ? (
                     <Pagination
-                        count={Math.ceil(filteredTrails.length / 15)}
+                        count={Math.ceil(props.filteredTrails.length / 15)}
                         color="primary"
                         onChange={(e, value) => {
                             setPage(value);
@@ -170,7 +171,7 @@ function Search(props) {
 
             <br />
             <div className="grid-container">
-                {props?.trails?.length === 0 ? (
+                {props?.filteredTrails?.length === 0 ? (
                     <div className="empty-trails">
                         <h1>No Matching Trails!</h1>
                     </div>
