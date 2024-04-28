@@ -20,6 +20,25 @@ import { Line } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { getImageURL } from '../../requests';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Import marker icon images using a method appropriate for your project setup.
+// If using Create React App or a similar setup, you can directly import images like this.
+import iconUrl from 'leaflet/dist/images/marker-icon.png';
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+const customIcon = new L.Icon({
+    iconUrl: iconUrl,
+    iconRetinaUrl: iconRetinaUrl,
+    shadowUrl: shadowUrl,
+    iconSize: [25, 41], // Size of the icon
+    iconAnchor: [12, 41], // Point of the icon which will correspond to marker's location
+    popupAnchor: [1, -34], // Point from which the popup should open relative to the iconAnchor
+    shadowSize: [41, 41] // Size of the shadow
+  });
 
 export const WeatherIcons = {
     "01d": sunnyIcon,
@@ -47,7 +66,7 @@ const TrailOverviewPage = () => {
         labels: ['Sea Level', 'Ground Level', 'Elevation Gain'],
         datasets: [
             {
-                label: 'Elevation (hPa / ft)',
+                label: 'Elevation (ft)',
                 data: [],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -89,6 +108,51 @@ const TrailOverviewPage = () => {
     }, [state_name, id]);
 
 
+    const baseGear = ['Water Bottle', 'Snacks', 'Map and Compass'];
+    const additionalGear = {
+      'easy': [],
+      'moderate': ['First Aid Kit'],
+      'hard': ['First Aid Kit', 'Trekking Poles', 'GPS Device'],
+      'rain': ['Waterproof Jacket', 'Waterproof Pants'],
+      'cold': ['Insulated Jacket', 'Gloves', 'Beanie', 'Thermal Layers'],
+      // Add more conditions as necessary
+    };
+  
+    const getDifficultyLevel = (rating) => {
+      if (rating <= 2) return 'easy';
+      if (rating <= 4) return 'moderate';
+      return 'hard';
+    };
+  
+    const getWeatherDependentGear = (weatherData) => {
+      const gear = [];
+      if (weatherData.main.temp <= 50) { // Assuming temp is in Fahrenheit
+        gear.push(...additionalGear['cold']);
+      }
+      if (weatherData.weather.some(w => w.main.toLowerCase().includes('rain'))) {
+        gear.push(...additionalGear['rain']);
+      }
+      // Add more weather conditions as necessary
+      return gear;
+    };
+  
+    const getSuggestedGear = () => {
+      let suggestedGear = [...baseGear];
+      
+      // Include gear based on difficulty
+      const difficultyLevel = getDifficultyLevel(trail?.difficulty_rating);
+      suggestedGear.push(...additionalGear[difficultyLevel]);
+  
+      // Include gear based on weather
+      if (weather) {
+        suggestedGear.push(...getWeatherDependentGear(weather));
+      }
+  
+      return suggestedGear;
+    };
+  
+    // Call this function when you need to display the gear list
+    const gearList = getSuggestedGear();
 
     const formatTime = (timestamp) => {
         const date = new Date(timestamp * 1000);
@@ -200,10 +264,12 @@ const TrailOverviewPage = () => {
                             <span className="detailValue">{trail.difficulty_rating}</span>
                         </div>
                     </div>
-                    <div className="descriptionSection">
-    <h2>Description</h2>
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions o Lorem Ipsum</p>
-</div>
+
+
+                    {trail.description && (<div className="descriptionSection">
+    <h2 className='sectionHeader'>Description</h2>
+    <p> {trail.description}</p>
+</div>)}
 
 <div className="weatherDataSection">
     <h2> weather data</h2>
@@ -260,25 +326,43 @@ const TrailOverviewPage = () => {
                 </div>
 
                 <div className="elevationSection">
-                    <h2>Elevation Data</h2>
+                    <h2 className="sectionHeader">Elevation Data</h2>
                     <div className="chartContainer1">
                         <Line data={chartData} options={{ responsive: true }} />
                     </div>
                 </div>
 
                 <div className="imageGallerySection">
-    <h2>Image Gallery</h2>
+    <h2 className="sectionHeader">Image Gallery</h2>
     <div className="imageGallery">
         {Array.from({ length: imageCount }, (_, i) => getImageURL(id, i)).map((url, index) => (
             <img       
                 key = {index} 
                 src={url}
                 alt={`Trail view ${index + 1}`}
-                style={{ width: '100%', maxWidth: '300px', margin: '10px' }}
+                
             />
         ))}
     </div>
+    </div>
+
+    <div className="mapSection">
+  <h2 className="sectionHeader">Map Location</h2>
+  {trail && trail._geoloc && (
+    <MapContainer center={[trail._geoloc.lat, trail._geoloc.lng]} zoom={13} scrollWheelZoom={true}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[trail._geoloc.lat, trail._geoloc.lng]} icon={customIcon}>
+        <Popup>
+          {trail.name} <br /> {trail.area_name}
+        </Popup>
+      </Marker>
+    </MapContainer>
+  )}
 </div>
+
+
                 </div>
 
                 <div className="sidebar">
@@ -299,6 +383,15 @@ const TrailOverviewPage = () => {
         ))}
     </div>
                     </div>
+
+                    <div className="sidebarSection">
+                        <h2>Recommended Gear List</h2>
+                        <div className='featuresList'>
+                            {gearList.map((item, index) => (
+                                <span key={index} className="featureTag">{item}</span>
+                            ))}
+                        </div>
+                        </div>
                 </div>
             </div>
         </React.Fragment>

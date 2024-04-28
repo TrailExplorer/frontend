@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import Routes instead of Switch
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
+import AboutUs from "./components/AboutUs/AboutUs";
 // Other imports...
 import TrailOverview from "./components/TrailOverviewPage/TrailOverviewPage"; // Assuming this component exists
 import {
@@ -153,6 +154,7 @@ function App() {
                         path="/:state_name/:id"
                         element={<TrailOverview />}
                     />
+                     <Route path="/aboutus" element={<AboutUs/>} />
                     {/* Define other routes here */}
                 </Routes>
             </>
