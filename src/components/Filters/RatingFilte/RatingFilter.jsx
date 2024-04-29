@@ -8,9 +8,7 @@ const RatingFilter = (props) => {
         <div className="rating-filter">
             {ratings.map((rating) => (
                 <button
-                    className={`rating-button ${
-                        props.selectedRating === rating ? "selected" : ""
-                    }`}
+                    className={`rating-button ${String(props.selectedRating) === rating? "selected" : ""}`}
                     onClick={(e) => props.setSelectedRating(Number(rating))}
                     key={rating}
                 >
