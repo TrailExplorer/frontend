@@ -11,7 +11,7 @@ const RatingFilter = (props) => {
                     className={`rating-button ${
                         props.selectedRating === rating ? "selected" : ""
                     }`}
-                    onClick={(e) => props.setSelectedRating(e.target.value)}
+                    onClick={(e) => props.setSelectedRating(Number(rating))}
                     key={rating}
                 >
                     &gt;= {rating}
