@@ -14,7 +14,7 @@ const RatingFilter = (props) => {
                     onClick={(e) => props.setSelectedRating(e.target.value)}
                     key={rating}
                 >
-                    &lt;= {rating}
+                    &gt;= {rating}
                 </button>
             ))}
         </div>

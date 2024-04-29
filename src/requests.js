@@ -42,7 +42,7 @@ export const getTrailsByLength = async (state_name = "", length = 0) => {
 
 export const getTrailsByRating = async (rating = 0, state_name = "") => {
     return await backendRequest("get-trails-by-rating", "GET", {
-        rating,
+        rating: Number(rating),
         state_name: state_name ? state_name.toLowerCase() : null,
     });
 };

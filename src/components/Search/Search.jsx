@@ -121,7 +121,7 @@ function Search(props) {
                     ))}
                 </Select>
 
-                <Button onClick={props.resetFilter}>Clear Filter</Button>
+                <Button onClick={props.resetFilters}>Clear Filter</Button>
             </div>
         );
     };
