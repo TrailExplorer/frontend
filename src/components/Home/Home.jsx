@@ -77,7 +77,6 @@ const Home = (props) => {
                     <form className="homeCard grid">
                         <div className="inputgroup">
                             <div className="locationDiv">
-                                <label htmlFor="statename">State Name</label>
                                 <Autocomplete
                                     id="trailState"
                                     className="input"
@@ -86,9 +85,10 @@ const Home = (props) => {
                                         <TextField
                                             {...params}
                                             value={selectedState}
+                                            label="State Name"
                                         />
                                     )}
-                                    defaultValue={""}
+                                    value={selectedState}
                                     onChange={(e, value) => {
                                         setSelectedState(value);
                                         setShowSearchResults(true);
@@ -98,19 +98,22 @@ const Home = (props) => {
 
                             <div
                                 className="trailLengthDiv"
-                                value={selectedTrailName}
                                 onChange={(e) => {
                                     setSelectedTrailName(e.target.value);
                                 }}
                             >
-                                <label htmlFor="trailName">Trail Name</label>
                                 <Autocomplete
                                     id="trailName"
                                     className="input"
                                     freeSolo
                                     options={getTrailNames()}
+                                    value={selectedTrailName}
                                     renderInput={(params) => (
-                                        <TextField {...params} />
+                                        <TextField
+                                            {...params}
+                                            value={selectedTrailName}
+                                            label="Trail Name"
+                                        />
                                     )}
                                     onChange={(e, value) => {
                                         setSelectedTrailName(value || "");

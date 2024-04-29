@@ -154,7 +154,7 @@ function App() {
                         path="/:state_name/:id"
                         element={<TrailOverview />}
                     />
-                     <Route path="/aboutus" element={<AboutUs/>} />
+                    <Route path="/aboutus" element={<AboutUs />} />
                     {/* Define other routes here */}
                 </Routes>
             </>
