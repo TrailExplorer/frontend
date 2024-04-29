@@ -1,11 +1,16 @@
 /* General layout and styling */
 .code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 
 .home1 {
     height: 30vh;
-    background: linear-gradient(rgba(33, 33, 33, 0.522), rgba(33, 33, 33, 0.522)), url("../../Assets/top-of-mountain-hiking-ssuknid9vlyemcl4.jpg");
+    background: linear-gradient(
+            rgba(33, 33, 33, 0.522),
+            rgba(33, 33, 33, 0.522)
+        ),
+        url("../../Assets/top-of-mountain-hiking-ssuknid9vlyemcl4.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -14,9 +19,9 @@
     justify-content: center;
     margin: auto;
     position: relative;
-  }
+}
 
-  .seccontainer1 {
+.seccontainer1 {
     max-width: 1200px; /* Or whatever max-width you want */
     margin: auto; /* This will center the container */
     padding: 20px;
@@ -35,21 +40,21 @@
 
 .descriptionSection {
     margin-top: 20px;
-    font-family: 'Roboto', sans-serif; /* Apply Roboto font */
+    font-family: "Roboto", sans-serif; /* Apply Roboto font */
 }
 
 .descriptionSection h2 {
     font-size: 1.5rem; /* Adjust heading font size */
     color: #333; /* Adjust heading color */
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
     /* Add some space below the heading */
 }
-.weatherDataSection h2{
+.weatherDataSection h2 {
     font-size: 1.5rem; /* Adjust heading font size */
     color: #333; /* Adjust heading color */
     margin-bottom: 10px;
     text-transform: capitalize;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .descriptionSection p {
@@ -64,9 +69,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width:100%;
+    width: 100%;
 }
-
 
 .weatherDataSection h2 {
     font-size: 1.5rem;
@@ -80,9 +84,8 @@
     background-color: #f7f7f7;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     width: 100%;
-    padding: 20px 10px 20px 10px; ;
+    padding: 20px 10px 20px 10px;
     border-radius: 8px;
-    
 }
 
 .weatherSection h2 {
@@ -97,13 +100,12 @@
     }
 }
 
-
-
-.subTitle, .cityState {
+.subTitle,
+.cityState {
     font-size: 1rem; /* Adjust font size as needed */
     color: #ccc; /* This is a lighter grey, adjust as needed */
-    margin-top: 5px; 
-    text-transform: capitalize;/* Adds a little space between the area name and the city/state */
+    margin-top: 5px;
+    text-transform: capitalize; /* Adds a little space between the area name and the city/state */
 }
 
 .rating {
@@ -111,7 +113,9 @@
     padding: 20px 0;
 }
 
-.rating .fullStar, .rating .halfStar, .rating .emptyStar {
+.rating .fullStar,
+.rating .halfStar,
+.rating .emptyStar {
     color: #f7f406;
     margin-right: 2px;
     font-size: 18px;
@@ -127,9 +131,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 100%;  
+    width: 100%;
     background: white;
-
 }
 
 .elevationSection h2 {
@@ -141,18 +144,17 @@
 
 .chartContainer {
     width: 100%;
-    padding: 10px 10px 10px 20px; ;
+    padding: 10px 10px 10px 20px;
     background: white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-
 }
 
 .chartContainer1 {
     width: 50%;
-    padding: 10px 10px 10px 20px; ;
+    padding: 10px 10px 10px 20px;
     background: white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     margin: auto;
 }
@@ -173,24 +175,25 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width:100%;/* Subtle shadow for depth */
+    width: 100%; /* Subtle shadow for depth */
 }
 
 .imageGallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* This creates a responsive grid with a minimum column width of 250px */
-    gap: 10px; /* This is the space between the images */
-    align-items: stretch; /* This will make sure that the items are of equal height */
-    justify-items: stretch; /* Stretch the items to fit the grid area */
-  }
-  
-  .imageGallery img {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the spacing between the images */
+    width: 100%; /* Full width to fill the container */
+    border-radius: 8px; /* Optional rounded corners */
+    align-items: center;
+    justify-content: center;
+}
+
+.imageGallery img {
     width: 100%; /* This makes the image fill the container width */
     height: 200px; /* Fixed height for all images */
     object-fit: cover; /* Covers the container with the image without distortion */
     border-radius: 8px; /* Optional rounded corners */
-  }
-
+}
 
 .rating .emptyStar {
     color: #ccc;
@@ -200,8 +203,6 @@
     color: #fff;
     padding: 0 5px;
 }
-
-
 
 /* Weather card styling */
 .weatherCard {
@@ -213,8 +214,8 @@
     width: 100%;
     max-width: 450px;
     margin-right: 20px;
-    font-family: 'Roboto', sans-serif;
-    transition: box-shadow 0.3s ease-in-out; 
+    font-family: "Roboto", sans-serif;
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 .weatherCardHeader {
@@ -223,7 +224,6 @@
     align-items: center;
     margin-bottom: 20px;
 }
-
 
 .weatherCardBody h3 {
     margin-bottom: 20px;
@@ -244,14 +244,16 @@
 }
 
 .weatherInfoItem {
-    flex-basis: calc(50% - 10px); /* subtracting the total margin from 50% width */
+    flex-basis: calc(
+        50% - 10px
+    ); /* subtracting the total margin from 50% width */
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 5px;
-        /* Other styles... */
-/* Add some margin to the left if needed */
- /* provides spacing between the items */
+    /* Other styles... */
+    /* Add some margin to the left if needed */
+    /* provides spacing between the items */
 }
 
 .weatherInfoItem img {
@@ -281,10 +283,9 @@
 
 .sectionHeader {
     border-bottom: 1px solid #ccc; /* Solid border, 2 pixels thick, dark color */
-    padding-bottom: 10px; /* Space between text and border *//* Ensure the border only takes up the width of the text */
+    padding-bottom: 10px; /* Space between text and border */ /* Ensure the border only takes up the width of the text */
     margin-bottom: 20px; /* Space after the border to the next content */
 }
-
 
 .trailDetailsBar {
     display: flex;
@@ -301,26 +302,26 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width:100%;
-  }
-  
-  .gearListSection h2 {
+    width: 100%;
+}
+
+.gearListSection h2 {
     margin-bottom: 10px;
     font-size: 1.5rem;
     color: #333;
-  }
-  
-  .gearListSection ul {
+}
+
+.gearListSection ul {
     list-style: none;
     padding: 0;
-  }
-  
-  .gearListSection li {
+}
+
+.gearListSection li {
     background: #f7f7f7;
     margin-bottom: 8px;
     padding: 10px;
     border-radius: 4px;
-  }
+}
 
 .detailItem {
     display: flex;
@@ -329,7 +330,7 @@
 }
 
 .detailTitle {
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     font-size: 0.75em;
     font-weight: bold;
     color: #524c4cd1;
@@ -338,7 +339,7 @@
 }
 
 .detailValue {
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     font-size: 1em;
     font-weight: bold;
     color: #333;
@@ -363,7 +364,6 @@
     bottom: 0;
     overflow: auto;
     border-left: 2px solid #ccc;
-    
 }
 .sidebarSection {
     top: 0;
@@ -372,16 +372,15 @@
     padding: 10px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 
 .sidebarItem {
     margin-bottom: 20px;
     padding: 10px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .featuresList {
@@ -397,23 +396,22 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width:100%;
-   /* Include padding and border in the width */
+    width: 100%;
+    /* Include padding and border in the width */
 }
 
 /* Ensure the map has a specific height and is responsive */
 .leaflet-container {
-    height: 400px;              /* Fixed height for the map */
-    width: 100%;                /* Full width to fill the container */
-    border-radius: 8px;         /* Rounded corners for the map */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Slight shadow for the map itself */
+    height: 400px; /* Fixed height for the map */
+    width: 100%; /* Full width to fill the container */
+    border-radius: 8px; /* Rounded corners for the map */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for the map itself */
 }
 
 /* Additional styling for the map heading */
 .mapSection h2 {
-    
-    color: #333;                /* Darker text color for better readability */
-    margin-bottom: 10px;        /* Space between the title and the map */
+    color: #333; /* Darker text color for better readability */
+    margin-bottom: 10px; /* Space between the title and the map */
 }
 
 .featureTag {
@@ -425,7 +423,7 @@
     color: #333;
     text-transform: capitalize;
     cursor: default;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
     transition: all 0.3s ease;
 }
 
@@ -439,7 +437,8 @@
     .weatherInfo {
         flex-direction: column;
     }
-    .mainContent, .sidebar {
+    .mainContent,
+    .sidebar {
         width: 100%;
         float: none;
     }
@@ -454,12 +453,3 @@
     clear: both;
     display: table;
 }
-
-
-
-
-
-
-
-
-
