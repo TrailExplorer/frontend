@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://34.221.171.212:8080/";
+const API_URL = "http://52.89.236.222:8080/";
 
 const backendRequest = async (url, method, params) => {
     try {
